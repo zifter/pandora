@@ -94,7 +94,7 @@ func (e *Engine) Run(ctx context.Context) error {
 					return ctx.Err()
 				default:
 				}
-				return errors.WithMessage(res.Err, fmt.Sprintf("%q pool run failed", res.Id))
+				return errors.WithMessage(res.Err, fmt.Sprintf("`%s` pool run failed", res.Id))
 			}
 		case <-ctx.Done():
 			e.log.Info("Engine run canceled")
@@ -291,7 +291,7 @@ func (ah *runAwaitHandle) awaitRun() {
 				ent.Write(zap.Int("id", res.Id), zap.Int("awaited", ah.awaitedInstances), zap.Error(res.Err))
 			}
 			if errutil.IsNotCtxError(ah.runCtx, res.Err) {
-				ah.onErrAwaited(errors.WithMessage(res.Err, fmt.Sprintf("instance %q run failed", res.Id)))
+				ah.onErrAwaited(errors.WithMessage(res.Err, fmt.Sprintf("instance %d run failed", res.Id)))
 			}
 			ah.checkAllInstancesAreFinished()
 		}
